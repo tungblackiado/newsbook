@@ -1,0 +1,129 @@
+# ===== CẤU HÌNH BẢN TIN — chỉnh file này, không cần sửa mã =====
+# Mẹo: sau khi sửa, chạy:  python main.py --check-feeds   để kiểm tra feed nào còn sống.
+
+settings:
+  title: "Bản tin Hạ tầng AI & Data Center"
+  author: "Bản tin cá nhân"
+  timezone: "Asia/Ho_Chi_Minh"
+  lookback_hours: 36          # chỉ lấy tin trong N giờ gần nhất
+  candidates_per_region: 28   # số tin ứng viên (đã chấm điểm) đưa cho AI chọn
+  items_per_region: 12        # số tin tối đa đưa vào bản tin mỗi mảng
+  max_per_source: 5           # tránh một nguồn chiếm hết chỗ
+  min_score: 2.0              # dưới ngưỡng này bị loại trước khi gọi AI
+  fulltext_chars: 1200        # số ký tự trích từ bài gốc để AI tóm tắt chính xác hơn
+  keep_issues_on_drive: 14    # giữ lại N số gần nhất trên Google Drive (số cũ chuyển vào thùng rác)
+  # Danh mục hãng/đối tượng quan tâm — AI dùng để đánh giá "ý nghĩa với kinh doanh"
+  portfolio: "NetApp, Kaytus/Aivres, Asus Commercial, Arista, Delta Electronics, Axis Communications, SonicWall"
+
+# ---- Nguồn RSS trực tiếp (có nội dung đầy đủ hơn) ----
+# region: vn = trong nước | intl = quốc tế ; weight = điểm cộng độ tin cậy/độ liên quan của nguồn
+feeds:
+  # Trong nước
+  - {name: "VnExpress - Kinh doanh",     region: vn, weight: 1.0, url: "https://vnexpress.net/rss/kinh-doanh.rss"}
+  - {name: "VnExpress - Số hóa",         region: vn, weight: 1.5, url: "https://vnexpress.net/rss/so-hoa.rss"}
+  - {name: "VnExpress - Khoa học công nghệ", region: vn, weight: 1.0, url: "https://vnexpress.net/rss/khoa-hoc-cong-nghe.rss"}
+  - {name: "CafeF - Doanh nghiệp",       region: vn, weight: 1.0, url: "https://cafef.vn/doanh-nghiep.rss"}
+  - {name: "VietnamNet - Kinh doanh",    region: vn, weight: 1.0, url: "https://vietnamnet.vn/rss/kinh-doanh.rss"}
+  - {name: "VietnamNet - Công nghệ",     region: vn, weight: 1.5, url: "https://vietnamnet.vn/rss/cong-nghe.rss"}
+  - {name: "Tuổi Trẻ - Kinh doanh",      region: vn, weight: 1.0, url: "https://tuoitre.vn/rss/kinh-doanh.rss"}
+  - {name: "Tuổi Trẻ - Nhịp sống số",    region: vn, weight: 1.5, url: "https://tuoitre.vn/rss/nhip-song-so.rss"}
+  - {name: "Dân trí - Kinh doanh",       region: vn, weight: 1.0, url: "https://dantri.com.vn/rss/kinh-doanh.rss"}
+  - {name: "Dân trí - Sức mạnh số",      region: vn, weight: 1.5, url: "https://dantri.com.vn/rss/suc-manh-so.rss"}
+  # Quốc tế
+  - {name: "DatacenterDynamics",         region: intl, weight: 2.0, url: "https://www.datacenterdynamics.com/en/rss/"}
+  - {name: "The Register - Data Centre", region: intl, weight: 1.5, url: "https://www.theregister.com/data_centre/headlines.atom"}
+  - {name: "Tom's Hardware - Data center", region: intl, weight: 1.0, url: "https://www.tomshardware.com/feeds/tag/data-center"}
+  - {name: "ServeTheHome",               region: intl, weight: 1.5, url: "https://www.servethehome.com/feed/"}
+  - {name: "Data Center Knowledge",      region: intl, weight: 1.5, url: "https://www.datacenterknowledge.com/rss.xml"}
+  - {name: "The Next Platform",          region: intl, weight: 1.5, url: "https://www.nextplatform.com/feed/"}
+  - {name: "HPCwire",                    region: intl, weight: 1.0, url: "https://www.hpcwire.com/feed/"}
+  - {name: "NVIDIA Blog",                region: intl, weight: 1.0, url: "https://blogs.nvidia.com/feed/"}
+  - {name: "Nikkei Asia",                region: intl, weight: 1.0, url: "https://asia.nikkei.com/rss/feed/nar"}
+
+# ---- "Nguồn động": truy vấn Google News RSS theo từ khóa (AI/từ khóa tự tìm nguồn giúp bạn) ----
+# Chỉ có tiêu đề + tên báo (không có nội dung) -> AI sẽ ghi rõ "(chỉ có tiêu đề)".
+# Muốn thêm chủ đề mới: thêm 1 dòng. Cú pháp: dấu ngoặc kép = cụm chính xác, OR = hoặc.
+google_news:
+  # Trong nước (tiếng Việt)
+  - {name: "GN: Trung tâm dữ liệu VN",   region: vn, lang: vi, weight: 1.5, query: '"trung tâm dữ liệu" OR "data center" Việt Nam'}
+  - {name: "GN: Hạ tầng AI VN",          region: vn, lang: vi, weight: 1.5, query: '"hạ tầng AI" OR "siêu máy tính" OR GPU Việt Nam'}
+  - {name: "GN: Nhà mạng/Cloud VN",      region: vn, lang: vi, weight: 1.0, query: '"FPT Smart Cloud" OR "Viettel IDC" OR VNPT OR "CMC Telecom" OR "VNG Cloud"'}
+  - {name: "GN: Hãng đang phân phối",    region: vn, lang: vi, weight: 2.0, query: 'NetApp OR Arista OR "Delta Electronics" OR SonicWall OR "Axis Communications" OR Kaytus OR Aivres'}
+  - {name: "GN: Chính sách dữ liệu/chip", region: vn, lang: vi, weight: 1.5, query: '"luật dữ liệu" OR "bán dẫn" OR "chip" chính sách Việt Nam trung tâm dữ liệu'}
+  # Quốc tế (tiếng Anh)
+  - {name: "GN: AI data center SEA",     region: intl, lang: en, weight: 1.5, query: '"AI data center" "Southeast Asia" OR Vietnam OR Malaysia OR Singapore'}
+  - {name: "GN: NVIDIA & kiểm soát xuất khẩu", region: intl, lang: en, weight: 1.5, query: 'NVIDIA Blackwell OR B300 OR GB300 supply OR "export controls"'}
+  - {name: "GN: Hãng đang phân phối (EN)", region: intl, lang: en, weight: 2.0, query: 'NetApp OR Arista OR "Delta Electronics" OR SonicWall OR "Axis Communications" OR Kaytus OR Aivres'}
+  - {name: "GN: Chi tiêu hyperscaler",   region: intl, lang: en, weight: 1.0, query: 'hyperscaler capex data center'}
+  - {name: "GN: Làm mát & điện cho DC",  region: intl, lang: en, weight: 1.0, query: '"liquid cooling" OR "power density" data center AI'}
+  - {name: "GN: Giá bộ nhớ/linh kiện",   region: intl, lang: en, weight: 1.0, query: 'DRAM OR HBM OR NAND price server shortage'}
+
+# ---- Từ khóa chấm điểm mức liên quan (không phân biệt hoa/thường và dấu tiếng Việt) ----
+keywords:
+  # Hãng trong danh mục
+  netapp: 6
+  kaytus: 6
+  aivres: 6
+  arista: 6
+  sonicwall: 6
+  "delta electronics": 5
+  "axis communications": 5
+  asus: 3
+  inspur: 2
+  # AI / GPU / server
+  nvidia: 3
+  blackwell: 3
+  b300: 4
+  gb300: 4
+  gb200: 3
+  gpu: 2
+  "ha tang ai": 5
+  "ai infrastructure": 4
+  "ai factory": 3
+  "sovereign ai": 3
+  "ai data center": 4
+  "sieu may tinh": 3
+  supercomputer: 2
+  hbm: 2
+  dram: 2
+  nand: 2
+  # Data center / hạ tầng
+  "data center": 3
+  datacenter: 3
+  "data centre": 3
+  "trung tam du lieu": 4
+  "hyperscaler": 2
+  "colocation": 2
+  "liquid cooling": 3
+  "lam mat": 2
+  "all-flash": 2
+  "luu tru": 2
+  storage: 1
+  infiniband: 2
+  ethernet: 1
+  "switch": 1
+  # Doanh nghiệp VN
+  fpt: 2
+  viettel: 2
+  vnpt: 2
+  cmc: 2
+  "vng": 1
+  # Chính sách / vĩ mô / chuỗi cung ứng
+  "export control": 3
+  "kiem soat xuat khau": 3
+  "ban dan": 2
+  semiconductor: 2
+  "luat du lieu": 3
+  "nghi dinh": 1
+  "chuoi cung ung": 2
+  "supply chain": 2
+  tariff: 2
+  "thue quan": 2
+  "ty gia": 1
+  "lai suat": 1
+  "dau tu cong": 1
+  "chuyen doi so": 1
+  cloud: 1
+  "bao mat": 1
+  cybersecurity: 1
+  ransomware: 1
