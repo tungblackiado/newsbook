@@ -2,8 +2,8 @@
 // Việc duy nhất của nó: nhận file EPUB từ GitHub và bỏ vào đúng thư mục Drive.
 // SỬA 2 DÒNG NGAY DƯỚI ĐÂY, giữ nguyên dấu ngoặc kép.
 
-const FOLDER_ID = "DÁN_MÃ_THƯ_MỤC_DRIVE_VÀO_ĐÂY";
-const TOKEN = "TỰ_ĐẶT_MỘT_MẬT_KHẨU_DÀI_30_KÝ_TỰ_CHỮ_VÀ_SỐ";
+const FOLDER_ID = 1KeiT4e7pczDSEu5QoJnt_t4r2PTaIwmF;
+const TOKEN = NTTBHQNDK160927111710HANOIVTNM;
 
 function doGet() {
   return ContentService.createTextOutput("Trạm nhận báo newsbook đang chạy.");
