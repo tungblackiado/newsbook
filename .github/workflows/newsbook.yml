@@ -24,6 +24,7 @@ jobs:
       - name: Tạo bản tin và đẩy lên Google Drive
         run: python main.py --out-dir out ${{ inputs.mode == 'check-feeds' && '--check-feeds' || '' }}
         env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           APPS_SCRIPT_URL: ${{ secrets.APPS_SCRIPT_URL }}
           APPS_SCRIPT_TOKEN: ${{ secrets.APPS_SCRIPT_TOKEN }}
       - name: Lưu bản EPUB dự phòng 7 ngày
