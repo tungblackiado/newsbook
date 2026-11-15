@@ -64,11 +64,11 @@ keywords:
   netapp: 6
   kaytus: 6
   aivres: 6
-  arista: 6
+  arista: 3
   SuperMicro: 6
   "delta electronics": 5
-  "axis communications": 5
-  asus: 3
+  "axis communications": 3
+  asus: 6
   inspur: 2
   # AI / GPU / server
   nvidia: 3
