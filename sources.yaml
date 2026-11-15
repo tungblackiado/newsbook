@@ -13,7 +13,7 @@ settings:
   fulltext_chars: 1200        # số ký tự trích từ bài gốc để AI tóm tắt chính xác hơn
   keep_issues_on_drive: 14    # giữ lại N số gần nhất trên Google Drive (số cũ chuyển vào thùng rác)
   # Danh mục hãng/đối tượng quan tâm — AI dùng để đánh giá "ý nghĩa với kinh doanh"
-  portfolio: "NetApp, Kaytus/Aivres, Asus Commercial, Arista, Delta Electronics, Axis Communications, SonicWall"
+  portfolio: "NetApp, Kaytus/Aivres, Asus Commercial, Arista, Delta Electronics, Axis Communications, SuperMicro"
 
 # ---- Nguồn RSS trực tiếp (có nội dung đầy đủ hơn) ----
 # region: vn = trong nước | intl = quốc tế ; weight = điểm cộng độ tin cậy/độ liên quan của nguồn
@@ -48,12 +48,12 @@ google_news:
   - {name: "GN: Trung tâm dữ liệu VN",   region: vn, lang: vi, weight: 1.5, query: '"trung tâm dữ liệu" OR "data center" Việt Nam'}
   - {name: "GN: Hạ tầng AI VN",          region: vn, lang: vi, weight: 1.5, query: '"hạ tầng AI" OR "siêu máy tính" OR GPU Việt Nam'}
   - {name: "GN: Nhà mạng/Cloud VN",      region: vn, lang: vi, weight: 1.0, query: '"FPT Smart Cloud" OR "Viettel IDC" OR VNPT OR "CMC Telecom" OR "VNG Cloud"'}
-  - {name: "GN: Hãng đang phân phối",    region: vn, lang: vi, weight: 2.0, query: 'NetApp OR Arista OR "Delta Electronics" OR SonicWall OR "Axis Communications" OR Kaytus OR Aivres'}
+  - {name: "GN: Hãng đang phân phối",    region: vn, lang: vi, weight: 2.0, query: 'NetApp OR Arista OR "Delta Electronics" OR SuperMicro OR "Axis Communications" OR Kaytus OR Aivres'}
   - {name: "GN: Chính sách dữ liệu/chip", region: vn, lang: vi, weight: 1.5, query: '"luật dữ liệu" OR "bán dẫn" OR "chip" chính sách Việt Nam trung tâm dữ liệu'}
   # Quốc tế (tiếng Anh)
   - {name: "GN: AI data center SEA",     region: intl, lang: en, weight: 1.5, query: '"AI data center" "Southeast Asia" OR Vietnam OR Malaysia OR Singapore'}
   - {name: "GN: NVIDIA & kiểm soát xuất khẩu", region: intl, lang: en, weight: 1.5, query: 'NVIDIA Blackwell OR B300 OR GB300 supply OR "export controls"'}
-  - {name: "GN: Hãng đang phân phối (EN)", region: intl, lang: en, weight: 2.0, query: 'NetApp OR Arista OR "Delta Electronics" OR SonicWall OR "Axis Communications" OR Kaytus OR Aivres'}
+  - {name: "GN: Hãng đang phân phối (EN)", region: intl, lang: en, weight: 2.0, query: 'NetApp OR Arista OR "Delta Electronics" OR SuperMicro OR "Axis Communications" OR Kaytus OR Aivres'}
   - {name: "GN: Chi tiêu hyperscaler",   region: intl, lang: en, weight: 1.0, query: 'hyperscaler capex data center'}
   - {name: "GN: Làm mát & điện cho DC",  region: intl, lang: en, weight: 1.0, query: '"liquid cooling" OR "power density" data center AI'}
   - {name: "GN: Giá bộ nhớ/linh kiện",   region: intl, lang: en, weight: 1.0, query: 'DRAM OR HBM OR NAND price server shortage'}
@@ -65,7 +65,7 @@ keywords:
   kaytus: 6
   aivres: 6
   arista: 6
-  sonicwall: 6
+  SuperMicro: 6
   "delta electronics": 5
   "axis communications": 5
   asus: 3
