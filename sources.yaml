@@ -10,7 +10,7 @@ settings:
   items_per_region: 12        # số tin tối đa đưa vào bản tin mỗi mảng
   max_per_source: 5           # tránh một nguồn chiếm hết chỗ
   min_score: 2.0              # dưới ngưỡng này bị loại trước khi gọi AI
-  fulltext_chars: 1200        # số ký tự trích từ bài gốc để AI tóm tắt chính xác hơn
+  fulltext_chars: 15000        # số ký tự trích từ bài gốc để AI tóm tắt chính xác hơn
   keep_issues_on_drive: 14    # giữ lại N số gần nhất trên Google Drive (số cũ chuyển vào thùng rác)
   # Danh mục hãng/đối tượng quan tâm — AI dùng để đánh giá "ý nghĩa với kinh doanh"
   portfolio: "NetApp, Kaytus/Aivres, Asus Commercial, Arista, Delta Electronics, Axis Communications, SuperMicro"
@@ -19,16 +19,14 @@ settings:
 # region: vn = trong nước | intl = quốc tế ; weight = điểm cộng độ tin cậy/độ liên quan của nguồn
 feeds:
   # Trong nước
-  - {name: "VnExpress - Kinh doanh",     region: vn, weight: 1.0, url: "https://vnexpress.net/rss/kinh-doanh.rss"}
-  - {name: "VnExpress - Số hóa",         region: vn, weight: 1.5, url: "https://vnexpress.net/rss/so-hoa.rss"}
   - {name: "VnExpress - Khoa học công nghệ", region: vn, weight: 1.0, url: "https://vnexpress.net/rss/khoa-hoc-cong-nghe.rss"}
   - {name: "CafeF - Doanh nghiệp",       region: vn, weight: 1.0, url: "https://cafef.vn/doanh-nghiep.rss"}
   - {name: "VietnamNet - Kinh doanh",    region: vn, weight: 1.0, url: "https://vietnamnet.vn/rss/kinh-doanh.rss"}
   - {name: "VietnamNet - Công nghệ",     region: vn, weight: 1.5, url: "https://vietnamnet.vn/rss/cong-nghe.rss"}
   - {name: "Tuổi Trẻ - Kinh doanh",      region: vn, weight: 1.0, url: "https://tuoitre.vn/rss/kinh-doanh.rss"}
   - {name: "Tuổi Trẻ - Nhịp sống số",    region: vn, weight: 1.5, url: "https://tuoitre.vn/rss/nhip-song-so.rss"}
-  - {name: "Dân trí - Kinh doanh",       region: vn, weight: 1.0, url: "https://dantri.com.vn/rss/kinh-doanh.rss"}
-  - {name: "Dân trí - Sức mạnh số",      region: vn, weight: 1.5, url: "https://dantri.com.vn/rss/suc-manh-so.rss"}
+  - {name: "Tia Sáng - Nền tảng - Kiến tạo",       region: vn, weight: 1.0, url: "https://tiasang.com.vn/rss/nen-tang-kien-tao.rss"}
+  - {name: "Tia Sáng - Khoa học - Công nghệ",      region: vn, weight: 1.5, url: "https://tiasang.com.vn/rss/khoa-hoc-cong-nghe.rss"}
   # Quốc tế
   - {name: "DatacenterDynamics",         region: intl, weight: 2.0, url: "https://www.datacenterdynamics.com/en/rss/"}
   - {name: "The Register - Data Centre", region: intl, weight: 1.5, url: "https://www.theregister.com/data_centre/headlines.atom"}
