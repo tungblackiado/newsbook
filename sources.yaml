@@ -5,6 +5,10 @@ settings:
   title: "Bản tin Hạ tầng AI & Data Center"
   author: "Bản tin cá nhân"
   timezone: "Asia/Ho_Chi_Minh"
+  batch_size: 4
+  model_select: ""
+  model_summarize: ""
+  thinking_level: "medium"
   lookback_hours: 36          # chỉ lấy tin trong N giờ gần nhất
   candidates_per_region: 28   # số tin ứng viên (đã chấm điểm) đưa cho AI chọn
   items_per_region: 12        # số tin tối đa đưa vào bản tin mỗi mảng
