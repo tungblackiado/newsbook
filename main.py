@@ -56,21 +56,24 @@ def main():
 
     if a.demo:
         ranked = demo_ranked()
-        os.environ.pop("GEMINI_API_KEY", None)  # demo không gọi AI
     else:
         items, report = news_fetch.collect(cfg)
         for name, status, n in report:
             print(f"  {name:42s} {status} ({n})")
         ranked = news_fetch.rank(items, cfg)
         print(f"[rank] Ứng viên: trong nước {len(ranked['vn'])}, quốc tế {len(ranked['intl'])}")
-        for region in ranked:
-            news_fetch.enrich(ranked[region], cfg["settings"].get("fulltext_chars", 1200))
 
     if not any(ranked.values()):
         print("Không có tin đủ điều kiện (kiểm tra nguồn/từ khóa). Dừng, không xuất bản số rỗng.")
         sys.exit(1)
 
-    curated = curate.curate_all(ranked, cfg)
+    ai = curate.AI(cfg, enabled=not a.demo)
+    sel = curate.select_all(ai, ranked, cfg)                      # Giai đoạn 1: chọn tin theo tiêu đề
+    if not a.demo:                                                # tải toàn văn CHỈ cho tin đã chọn
+        chars = cfg["settings"].get("fulltext_chars", 12000)
+        for region in sel:
+            news_fetch.enrich([p["item"] for p in sel[region]["picks"]], chars)
+    curated = curate.summarize_all(ai, sel, cfg)                  # Giai đoạn 2: tóm tắt sâu từ toàn văn
     path = epub_build.build_epub(curated, cfg, a.out_dir)
     print(f"[epub] Đã tạo {path} ({os.path.getsize(path)/1024:.0f} KB)")
 

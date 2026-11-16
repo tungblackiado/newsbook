@@ -17,6 +17,8 @@ h1 { font-size: 1.5em; margin: 1em 0 0.4em; border-bottom: 2px solid #000; paddi
 h2 { font-size: 1.2em; margin: 0.2em 0 0.3em; line-height: 1.25; }
 .meta { font-size: 0.8em; color: #444; margin: 0 0 0.6em; }
 .tag { border: 1px solid #000; padding: 0 0.4em; font-size: 0.75em; margin-right: 0.4em; }
+.facts { margin: 0.4em 0; font-size: 0.95em; }
+.basis { font-size: 0.75em; color: #444; }
 .sowhat { margin: 0.6em 0; padding: 0.4em 0.7em; border-left: 4px solid #000; font-size: 0.95em; }
 .src a { font-size: 0.85em; }
 ul { padding-left: 1.2em; }
@@ -139,8 +141,12 @@ def build_epub(curated: dict, cfg: dict, out_dir: str, ranked_counts=None) -> st
                     f"<p class='meta'><span class='tag'>{html.escape(it['tag'])}</span>"
                     f"{html.escape(it['source'])} · {_fmt_time(it['published'], tz)}</p>",
                     f"<p>{html.escape(it['summary'])}</p>"]
+            if it.get("key_facts"):
+                body.append("<p class='facts'><b>Số liệu / dữ kiện chính</b></p><ul class='facts'>" +
+                            "".join(f"<li>{html.escape(f)}</li>" for f in it["key_facts"]) + "</ul>")
             if it.get("so_what"):
                 body.append(f"<div class='sowhat'><b>Ý nghĩa kinh doanh:</b> {html.escape(it['so_what'])}</div>")
+            body.append(f"<p class='basis'>Tóm tắt dựa trên: {html.escape(it.get('basis', ''))}</p>")
             body.append(f"<p class='src'><a href='{html.escape(it['link'], quote=True)}'>Đọc bài gốc ›</a></p>")
             c = page(fn, it["title"], "".join(body))
             spine.append(c)

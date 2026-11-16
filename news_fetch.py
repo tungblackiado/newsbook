@@ -89,6 +89,12 @@ def fetch_one(name: str, url: str, region: str, weight: float, from_gn: bool):
         if not title or not link:
             continue
         summary = clean_html(e.get("summary", "") or e.get("description", ""), 700)
+        text = ""
+        if not from_gn:
+            for c in (e.get("content") or []):
+                v = clean_html(c.get("value", ""), 30000)
+                if len(v) > len(text):
+                    text = v
         if from_gn:  # mô tả của Google News chỉ lặp lại tiêu đề + tên báo
             summary = ""
         src = name
@@ -96,7 +102,7 @@ def fetch_one(name: str, url: str, region: str, weight: float, from_gn: bool):
             s = e.get("source")
             src = (s.get("title") if s else None) or name
         items.append(Item(title=title, link=link, source=src, region=region,
-                          published=_entry_time(e), summary=summary,
+                          published=_entry_time(e), summary=summary, text=text,
                           weight=weight, from_gn=from_gn))
     return items
 
@@ -189,21 +195,40 @@ def rank(items, cfg):
     return out
 
 
-# ---------- trích đoạn bài gốc ----------
-def enrich(items, chars: int = 1200):
-    """Lấy đoạn đầu bài gốc cho các bài RSS trực tiếp (bỏ qua Google News vì link chuyển hướng)."""
+# ---------- lấy toàn văn bài gốc ----------
+def _decode_gn(url: str):
+    """Giải mã link Google News (news.google.com/rss/articles/...) về link bài gốc của báo."""
+    try:
+        from googlenewsdecoder import gnewsdecoder
+        r = gnewsdecoder(url, interval=1)
+        if r.get("status") and r.get("decoded_url"):
+            return r["decoded_url"]
+    except Exception:
+        pass
+    return None
+
+
+def enrich(items, chars: int = 12000):
+    """Với các tin ĐÃ ĐƯỢC CHỌN: giải mã link Google News rồi tải toàn văn bài gốc.
+    Lỗi/paywall/bị chặn thì giữ nguyên (AI sẽ ghi rõ 'chỉ có tiêu đề')."""
     try:
         import trafilatura
     except ImportError:
-        return
+        trafilatura = None
     for it in items:
-        if it.from_gn or chars <= 0:
+        if it.from_gn:
+            real = _decode_gn(it.link)
+            if real:
+                it.link, it.from_gn = real, False
+        if it.from_gn or chars <= 0 or trafilatura is None or len(it.text) >= 1500:
+            it.text = it.text[:chars]
             continue
         try:
-            r = requests.get(it.link, headers={"User-Agent": UA}, timeout=15)
+            r = requests.get(it.link, headers={"User-Agent": UA}, timeout=20)
             if r.ok:
-                txt = trafilatura.extract(r.text, include_comments=False, include_tables=False)
-                if txt:
+                txt = trafilatura.extract(r.text, include_comments=False, include_tables=False,
+                                          favor_recall=True)
+                if txt and len(txt) > len(it.text):
                     it.text = WS_RE.sub(" ", txt)[:chars]
         except Exception:
             pass
